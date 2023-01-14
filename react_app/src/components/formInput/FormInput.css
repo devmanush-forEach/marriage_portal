@@ -1,0 +1,61 @@
+.form_input_box {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.form_input_box > label {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 9;
+  color: white;
+  transition: all 0.5s;
+  pointer-events: none;
+  text-transform: capitalize;
+}
+.form_input_box > input {
+  background-color: transparent;
+  color: white;
+  padding: 0px 10px;
+  position: relative;
+  font-size: 16px;
+  height: 40px;
+  width: 100%;
+  border: none;
+  outline: none;
+  border-bottom: 1px solid gray;
+}
+.form_input_box > input:focus {
+  border: 1px solid white;
+}
+
+.form_input_box > .active_input {
+  border: 1px solid white;
+}
+:focus ~ .forminput_label {
+  top: -8px;
+  font-size: 12px;
+  padding: 0px 5px;
+  border-left: 1px solid white;
+  border-right: 1px solid white;
+  background-color: #292929;
+}
+#label_up {
+  top: -8px;
+  font-size: 12px;
+  padding: 0px 5px;
+  border-left: 1px solid white;
+  border-right: 1px solid white;
+  background-color: #292929;
+}
+
+.input_error_message {
+  font-size: 12px;
+  color: red;
+  display: none;
+}
+
+.phone_input:invalid[focused="true"] ~ .input_error_message {
+  display: block;
+}

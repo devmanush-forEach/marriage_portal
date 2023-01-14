@@ -1,0 +1,38 @@
+.gender_input_box {
+  height: 40px;
+  border-bottom: 1px solid gray;
+  display: flex;
+  gap: 20px;
+  padding: 0px 10px;
+  position: relative;
+  border: 1px solid white;
+}
+.gender_label {
+  position: absolute;
+  color: white;
+  font-size: 12px;
+  top: -10px;
+  background-color: #292929;
+  padding: 0px 5px;
+  border-left: 1px solid white;
+  border-right: 1px solid white;
+}
+.gender_box {
+  color: white;
+  display: flex;
+  align-items: center;
+  height: 40px;
+  cursor: pointer;
+  gap: 10px;
+}
+
+.gender_box > input {
+  height: 15px;
+  width: 15px;
+  cursor: pointer;
+}
+.gender_box > label {
+  display: block;
+  border: none;
+  pointer-events: none;
+}

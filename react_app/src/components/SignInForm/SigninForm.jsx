@@ -12,7 +12,6 @@ const SigninForm = () => {
     e.preventDefault();
 
     const { status, data: res } = await axiosPost("/signin", data);
-    console.log(res);
     if (status === 200) {
       localStorage.setItem("jwt_token", res.token);
       toast("Successfully Logged In !!");

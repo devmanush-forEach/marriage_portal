@@ -3,7 +3,7 @@
   min-height: 100vh;
 
   z-index: 99;
-  background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfmtUSJuEs9iHUnX-7854mWFloljbcBEpODA&usqp=CAU");
+  /* background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfmtUSJuEs9iHUnX-7854mWFloljbcBEpODA&usqp=CAU"); */
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -17,7 +17,8 @@
   text-align: center;
 }
 
-.homelink {
+.home_link {
+  display: block;
   width: 200px;
   text-align: center;
   color: black;

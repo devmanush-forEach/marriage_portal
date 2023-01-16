@@ -29,8 +29,10 @@ nav {
   color: white;
   text-decoration: none;
 }
+
 .nav_links:hover {
-  text-decoration: underline;
+  color: aqua;
+  text-shadow: 0 0 20px aqua;
 }
 
 .nav_right {
@@ -61,8 +63,8 @@ nav {
 .nav_dd {
   width: 100px;
   position: absolute;
-  bottom: -34px;
-  padding-top: 32px;
+  bottom: -64px;
+  padding-top: 62px;
   display: none;
   right: -40px;
   border-radius: 4px;
@@ -79,7 +81,12 @@ nav {
   font-size: 14px;
   border-bottom: 1px solid white;
 }
-
+.nav_dd_link {
+  display: grid;
+  place-items: center;
+  text-decoration: none;
+  font-size: 16px;
+}
 .signin_box {
   height: 100vh;
   width: 100%;

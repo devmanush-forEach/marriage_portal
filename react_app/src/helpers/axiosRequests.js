@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const baseurl = "http://localhost:5500";
+// const baseurl = "http://localhost:5500";
+const baseurl = "http://ec2-65-0-47-21.ap-south-1.compute.amazonaws.com:5500";
 const token = localStorage.getItem("jwt_token");
 
 export const authAxios = axios.create({

@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   position: relative;
+  min-width: 250px;
 }
 
 .form_input_box > label {
@@ -33,7 +34,8 @@
 .form_input_box > .active_input {
   border: 1px solid white;
 }
-:focus ~ .forminput_label {
+:focus ~ .forminput_label,
+.label_up {
   top: -8px;
   font-size: 12px;
   padding: 0px 5px;
@@ -41,7 +43,7 @@
   border-right: 1px solid white;
   background-color: #292929;
 }
-#label_up {
+.form_input_box > .label_up {
   top: -8px;
   font-size: 12px;
   padding: 0px 5px;
@@ -54,6 +56,7 @@
   font-size: 12px;
   color: red;
   display: none;
+  padding: 10px 5px;
 }
 
 .phone_input:invalid[focused="true"] ~ .input_error_message {

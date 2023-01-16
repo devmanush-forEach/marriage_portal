@@ -40,7 +40,8 @@ const Navbar = () => {
       const { target } = e;
 
       if (!document.getElementById("signInBox").contains(target)) {
-        handleShowSignin();
+        setShowSignin(false);
+        setFormType(false);
       }
     });
   }, []);
@@ -72,6 +73,9 @@ const Navbar = () => {
                 <div className="nav_user_name">{user.name.split(" ")[0]}</div>
                 <div className="nav_dd">
                   <button onClick={handleSignOut}>Sign Out</button>
+                  <Link className="nav_dd_link" to="/profile">
+                    Profile
+                  </Link>
                 </div>
               </>
             ) : (

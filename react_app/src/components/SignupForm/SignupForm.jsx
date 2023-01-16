@@ -6,6 +6,7 @@ import FormInput from "../formInput/FormInput";
 import { axiosPost } from "../../helpers/axiosRequests";
 import { toast } from "react-toastify";
 import GenderInput from "../genderInput/GenderInput";
+import inputList from "./inputList";
 
 const SignupForm = () => {
   const navigate = useNavigate();
@@ -14,6 +15,7 @@ const SignupForm = () => {
     email: "",
     phone: "",
     password: "",
+    confirmPassword: "",
     gender: "",
     dob: new Date().toJSON().slice(0, 10),
   });
@@ -46,48 +48,30 @@ const SignupForm = () => {
       onSubmit={handleSignup}
       className="signup_form"
     >
+      {inputList.map((e, i) => {
+        if (i === 1) return <GenderInput onchange={handleChange} />;
+        return (
+          <>
+            <FormInput
+              name={e.name}
+              onchange={handleChange}
+              label={e.label}
+              inputValue={userData[e.value]}
+              errorMessage={e.errorMessage}
+              pattern={e.pattern}
+              type={e.type}
+            />
+          </>
+        );
+      })}
+
       <FormInput
-        name="name"
+        name="confirmPassword"
         onchange={handleChange}
-        label="Full Name"
-        inputValue={userData.name}
-        errorMessage="Name's length should not be less than 3 and shouldn't include any special character"
-        pattern="^([a-zA-Z]{2,}\s[a-zA-Z]{1,}'?-?[a-zA-Z]{2,}\s?([a-zA-Z]{1,})?)"
-      />
-      <GenderInput onchange={handleChange} />
-      <FormInput
-        type="email"
-        name="email"
-        onchange={handleChange}
-        label="Email"
-        inputValue={userData.email}
-        errorMessage="Entered email should be a valid email"
-        pattern="^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$"
-      />
-      <FormInput
-        name="phone"
-        onchange={handleChange}
-        label="Phone"
-        inputValue={userData.phone}
-        errorMessage="Phone number's length should not be less than 10"
-        pattern="^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$"
-      />
-      <FormInput
-        type="date"
-        name="dob"
-        onchange={handleChange}
-        label="Date Of Birth"
-        inputValue={userData.dob}
-        errorMessage="Date should be less than 1-1-2020"
-        pattern="^[A-Za-z0-9]{3,20}"
-      />
-      <FormInput
-        name="password"
-        onchange={handleChange}
-        label="Password"
-        inputValue={userData.password}
-        errorMessage="Minimum length is 8, at includes at least one letter and one number"
-        pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"
+        label="Confirm Password"
+        inputValue={userData.confirmPassword}
+        errorMessage="Passwords are not equal !!"
+        pattern={userData.password}
       />
       <button className="submit_button" type="submit">
         Sign Up

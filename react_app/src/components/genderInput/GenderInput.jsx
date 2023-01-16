@@ -1,33 +1,29 @@
 import React from "react";
 import "./GenderInput.css";
 
-const GenderInput = ({ onchange }) => {
+const GenderInput = ({ onchange, defaultVal, disabled }) => {
   return (
     <>
-      <div className="gender_input_box">
-        <span className="gender_label">Gender</span>
-        <div className="gender_box">
-          <input
-            type="radio"
-            name="gender"
-            value="male"
-            onChange={onchange}
-            id="male"
-            required
-          />
-          <label htmlFor="male">Male</label>
-        </div>
-        <div className="gender_box">
-          <input
-            type="radio"
-            name="gender"
-            value="female"
-            id="female"
-            onChange={onchange}
-            required
-          />
-          <label htmlFor="female">Female</label>
-        </div>
+      <div className="gender_select_box">
+        <select
+          style={{ cursor: disabled && "not-allowed" }}
+          name="gender"
+          id="gender"
+          onChange={onchange}
+          className="gender_select"
+          value={defaultVal}
+          required
+          disabled={disabled}
+        >
+          <option value="" selected disabled>
+            Select Your Gender
+          </option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+        </select>
+        <label className="gender_select_label" htmlFor="gender">
+          Premium Frequency
+        </label>
       </div>
     </>
   );

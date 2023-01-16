@@ -13,6 +13,8 @@ const FormInput = (props) => {
     maxLength,
     min,
     max,
+    defaultVal,
+    disabled,
   } = props;
 
   const [focused, setFocused] = useState(false);
@@ -23,7 +25,7 @@ const FormInput = (props) => {
   const now = new Date();
 
   const getMaxDate = () => {
-    const min = 725809896000;
+    const min = 568025136000;
 
     const nowSec = now.getTime();
     const sec = nowSec - min;
@@ -31,40 +33,39 @@ const FormInput = (props) => {
     const maxDate = new Date(sec).toJSON().slice(0, 10);
     return maxDate;
   };
-  const getMinDate = () => {
-    const min = 1767189312000;
-
-    const nowSec = now.getTime();
-    const sec = nowSec - min;
-
-    const minDate = new Date(sec).toJSON().slice(0, 10);
-    return minDate;
-  };
 
   return (
     <div className="form_input_box">
       <input
+        style={{
+          cursor: disabled && "not-allowed",
+          color: disabled && "wheat",
+        }}
         type={type ? type : "text"}
         maxLength={maxLength}
         autoComplete="off"
         className={
-          inputValue?.length > 0 || type === "date"
+          defaultVal?.length > 0 || type === "date"
             ? "phone_input active_input"
             : "phone_input"
         }
         name={name}
         onChange={onchange}
-        value={inputValue}
+        defaultValue={type !== "date" ? defaultVal : defaultVal.slice(0, 10)}
+        // value={date}
         required
         pattern={pattern}
         onBlur={handleFocus}
         focused={focused.toString()}
         max={type === "date" ? getMaxDate() : max}
-        min={type === "date" ? getMinDate() : min}
+        disabled={disabled}
       />
       <label
-        id={(inputValue?.length > 0 || type === "date") && "label_up"}
-        className="forminput_label"
+        className={
+          defaultVal?.length > 0 || type === "date"
+            ? "forminput_label label_up"
+            : "forminput_label"
+        }
         htmlFor=""
       >
         {label}

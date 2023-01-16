@@ -5,6 +5,8 @@ import Home from "./pages/Home/Home";
 import Profile from "./pages/profile/Profile";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Application from "./components/application/Application";
+import ApplicationsPage from "./pages/applicationsPage/ApplicationsPage";
 
 function App() {
   return (
@@ -13,6 +15,8 @@ function App() {
       <Routes>
         <Route element={<Home />} path="/" />
         <Route element={<Profile />} path="/profile" />
+        <Route element={<Application />} path="/application" />
+        <Route element={<ApplicationsPage />} path="/applications" />
       </Routes>
       <ToastContainer
         position="bottom-center"

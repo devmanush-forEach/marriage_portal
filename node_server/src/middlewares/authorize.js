@@ -1,7 +1,12 @@
+const userModel = require("../models/user.model");
+
 const authorize = (permittedRoles) => {
-  return (req, res, next) => {
-    const user = req.user;
+  return async (req, res, next) => {
+    const userid = req.userid;
     let isAllowed = false;
+
+    const user = await userModel.findById(userid).lean().exec();
+
     for (let i = 0; i < user.roles.length; i++) {
       if (permittedRoles.includes(user.roles[i])) {
         isAllowed = true;
@@ -11,7 +16,7 @@ const authorize = (permittedRoles) => {
     if (isAllowed) {
       next();
     } else {
-      return res.status(403).send("Permission denied !!");
+      return res.status(403).send({ error: "Permission denied !!" });
     }
   };
 };

@@ -1,4 +1,3 @@
-import { async } from "@firebase/util";
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import { axiosPost } from "../../helpers/axiosRequests";
@@ -22,7 +21,7 @@ const Application = () => {
     dob: new Date().toJSON().slice(0, 10),
   });
 
-  const [addDoc, setAddDoc] = useState(false);
+  // const [addDoc, setAddDoc] = useState(false);
   const [profileUrl, setProfileUrl] = useState(null);
   const [docUrlList, setDocUrlList] = useState([]);
   const handleChange = (e) => {
@@ -35,34 +34,37 @@ const Application = () => {
   };
 
   const handleAddDocs = async (file) => {
-    const url = await uploadImage(file);
-    setApplication({ ...application, docs: [...application.docs, url] });
-    if (url) {
-      toast("Document uploaded Successfully");
-    } else {
-      toast.error("Document didn't grt uploaded.");
+    if (file) {
+      const url = await uploadImage(file);
+      setApplication({
+        ...application,
+        docs: [...application.docs, { url, name: file.name }],
+      });
+      const Url = await getImageUrl(url);
+      setDocUrlList([...docUrlList, { url: Url, name: file.name }]);
+      // setAddDoc(false);
     }
-    const Url = await getImageUrl(url);
-    setDocUrlList([...docUrlList, Url]);
-    setAddDoc(false);
   };
 
   const handleAddProfile = async (img) => {
-    const url = await uploadImage(img);
-    setApplication({ ...application, profile: url });
-    if (url) {
-      toast("Profile uploaded Successfully");
-    } else {
-      toast.error("Profile didn't grt uploaded.");
+    if (img) {
+      setApplication({ ...application, profile: img });
+      const Url = URL.createObjectURL(img);
+      setProfileUrl(Url);
     }
-    const Url = await getImageUrl(url);
-    setProfileUrl(Url);
+  };
+
+  const handleProfileChange = () => {
+    setProfileUrl(null);
   };
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     try {
-      const toCreate = { ...application };
+      const profileUrl = await uploadImage(application.profile);
+
+      const toCreate = { ...application, profile: profileUrl };
+      console.log(toCreate);
 
       const { status, data: created } = await axiosPost(
         "/application/create",
@@ -75,8 +77,12 @@ const Application = () => {
       } else {
         toast.error(created.error);
       }
-    } catch (error) {}
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
+
+  console.log(application);
 
   return (
     <div className="apltn_page_container">
@@ -88,65 +94,92 @@ const Application = () => {
           className="application_form"
           id="applicationForm"
         >
-          {inputList.map((e, i) => {
-            if (i === 1)
+          <section className="form_input_containers">
+            {inputList.map((e, i) => {
+              if (i === 1)
+                return (
+                  <div className="form_div">
+                    <GenderInput
+                      onchange={handleChange}
+                      defaultVal={application.gender}
+                    />
+                  </div>
+                );
               return (
-                <div className="form_div">
-                  <GenderInput
-                    onchange={handleChange}
-                    defaultVal={application.gender}
-                  />
-                </div>
+                <>
+                  <div className="form_div">
+                    <FormInput
+                      name={e.name}
+                      onchange={handleChange}
+                      label={e.label}
+                      inputValue={application[e.value]}
+                      errorMessage={e.errorMessage}
+                      pattern={e.pattern}
+                      type={e.type}
+                      defaultVal={application[e.name]}
+                    />
+                  </div>
+                </>
               );
-            return (
-              <>
-                <div className="form_div">
-                  <FormInput
-                    name={e.name}
-                    onchange={handleChange}
-                    label={e.label}
-                    inputValue={application[e.value]}
-                    errorMessage={e.errorMessage}
-                    pattern={e.pattern}
-                    type={e.type}
-                    defaultVal={application[e.name]}
-                  />
+            })}
+          </section>
+          <section className="form_input_containers">
+            <div className="profile_div" id="profile_div">
+              <label className="profile_label" htmlFor="profile_div">
+                Profile
+              </label>
+              {profileUrl && (
+                <div className="app_profile_change">
+                  <button onClick={handleProfileChange}>change</button>
                 </div>
-              </>
-            );
-          })}
-          <div className="form_div">
-            {application?.profile ? (
-              <div className="app_profile_view">
-                <img className="app_profile" src={profileUrl} alt="" />
-              </div>
-            ) : (
-              <ImageUpload
-                title="Upload Your Photo"
-                onSelected={handleAddProfile}
-              />
-            )}
-          </div>
-          <div className="form_div">
-            <div
-              className="add_doc_btn "
-              onClick={() => {
-                setAddDoc(!addDoc);
-              }}
-            >
-              {application.docs.length === 0
-                ? "Upload Document"
-                : "Upload Another Document"}
+              )}
+              {profileUrl ? (
+                <div className="app_profile_view">
+                  <img className="app_profile" src={profileUrl} alt="" />
+                </div>
+              ) : (
+                <ImageUpload
+                  title="Upload Your Photo"
+                  name="profile"
+                  onSelected={handleAddProfile}
+                />
+              )}
             </div>
-            {addDoc && (
-              <ImageUpload
-                title="Upload Your Documents"
-                onSelected={handleAddDocs}
-              />
-            )}
-          </div>
+            <div className="profile_div">
+              <label className="profile_label" htmlFor="profile_div">
+                Documents
+              </label>
+              <div className="document_input_container">
+                <ImageUpload
+                  title={
+                    application.docs.length === 0
+                      ? "Upload Document"
+                      : "Upload Another Document"
+                  }
+                  name="document"
+                  onSelected={handleAddDocs}
+                />
+              </div>
+            </div>
+          </section>
+          {docUrlList.length > 0 && (
+            <div className="document_view_box">
+              {docUrlList?.map(({ url, name }, i) => {
+                return (
+                  <>
+                    <div className="document_view_tile" id={`${i}${name}`}>
+                      <img src={url} alt="" />
+                      <label className="profile_label" htmlFor={`${i}${name}`}>
+                        <abbr title={name}>{name}</abbr>
+                      </label>
+                    </div>
+                  </>
+                );
+              })}
+            </div>
+          )}
 
-          <div className="form_sbmt_div">
+          <div className="form_sbmt_div application_submit_div">
             <button className="formSubmitBtn" type="submit">
               Submit Application
             </button>

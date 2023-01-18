@@ -74,7 +74,17 @@
   padding: 20px 0px;
 }
 
-.dic_img_tag {
+.doc_drawer_img {
+  border-bottom: 1px solid white;
+  padding: 20px 0px;
+}
+.doc_drawer_img > p {
+  color: white;
+  font-size: 16px;
+  letter-spacing: 1px;
+}
+
+.doc_img_tag {
   width: 100%;
 }
 

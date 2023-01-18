@@ -4,25 +4,24 @@ import { useState } from "react";
 
 import { GiCancel } from "react-icons/gi";
 
-const ImageUpload = ({ onSelected, onRemove, title }) => {
+const ImageUpload = ({ name, onSelected, onRemove, title }) => {
   const handleFormClick = () => {
-    document.getElementById("image_input").click();
+    document.getElementById(name).click();
   };
 
-  const [file, setFile] = useState(null);
+  // const [file, setFile] = useState(null);
 
-  const set_File = ({ target }) => {
-    const img = target.files[0];
-    setFile(img);
-    onSelected(img);
-  };
+  // const set_File = ({ target }) => {
+  //   const img = target.files[0];
+  //   setFile(img);
+  // };
 
   const handleDrop = () => {};
 
-  const handleRemoveFile = () => {
-    setFile(null);
-    onRemove();
-  };
+  // const handleRemoveFile = () => {
+  //   setFile(null);
+  //   onRemove();
+  // };
 
   return (
     <>
@@ -31,23 +30,28 @@ const ImageUpload = ({ onSelected, onRemove, title }) => {
         <form action="#" onClick={handleFormClick}>
           <input
             type="file"
-            name="file"
+            name={name}
             hidden
             className="file_input_ele"
-            id="image_input"
-            onChange={set_File}
+            id={name}
+            onChange={(e) => {
+              // set_File(e);
+              onSelected(e.target.files[0]);
+            }}
           />
           <IoMdCloudUpload className="upload_icon" />
-          <span>{title ? title : "Select File"}</span>
+          <span className="image_upload_title">
+            {title ? title : "Select File"}
+          </span>
         </form>
-        {file && (
+        {/* {file && (
           <div className="selected_filename">
             <p>{file.name}</p>
             <span onClick={handleRemoveFile}>
               <GiCancel />
             </span>
           </div>
-        )}
+        )} */}
       </div>
     </>
   );

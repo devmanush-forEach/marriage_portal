@@ -56,7 +56,7 @@ const SignupForm = () => {
               name={e.name}
               onchange={handleChange}
               label={e.label}
-              inputValue={userData[e.value]}
+              defaultVal={userData[e.value]}
               errorMessage={e.errorMessage}
               pattern={e.pattern}
               type={e.type}

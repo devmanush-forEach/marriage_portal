@@ -30,31 +30,38 @@ const ApplicationTile = ({ application }) => {
 
   const handleVerify = async () => {
     try {
-      const { status, data } = await axiosPost(
-        "/application/verify",
-        application
-      );
-      if (status === 202) {
-        toast("Application is successfully deactivated.");
+      const verify = window.confirm("Are you sure ??");
+      if (verify) {
+        const { status, data } = await axiosPost(
+          "/application/verify",
+          application
+        );
+        if (status === 202) {
+          toast("Application is successfully Verified.");
+        } else {
+          toast.error(data.error);
+        }
+        dispatch(get_Applications());
       }
-      dispatch(get_Applications());
     } catch (error) {
       toast.error(error.message);
     }
   };
   const handleReject = async () => {
     try {
-      alert("Are you Sure??");
-      const { status, data } = await axiosPost(
-        "/application/reject",
-        application
-      );
-      if (status === 202) {
-        toast("Application is successfully deactivated.");
-      } else {
-        toast.error(data.error);
+      let verify = window.confirm("Are you sure ??");
+      if (verify) {
+        const { status, data } = await axiosPost(
+          "/application/reject",
+          application
+        );
+        if (status === 202) {
+          toast("Application is successfully deactivated.");
+        } else {
+          toast.error(data.error);
+        }
+        dispatch(get_Applications());
       }
-      dispatch(get_Applications());
     } catch (error) {
       toast.error(error.message);
     }
@@ -97,9 +104,9 @@ const ApplicationTile = ({ application }) => {
           </span>
 
           <div className="docs_div">
-            {application?.docs?.map((ele) => (
+            {application?.docs?.map(({ url, name }) => (
               <>
-                <ApplicationDocs link={ele} />
+                <ApplicationDocs link={url} name={name} />
               </>
             ))}
           </div>

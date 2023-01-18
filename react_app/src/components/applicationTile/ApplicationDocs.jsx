@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getImageUrl } from "../../helpers/firebase";
 
-const ApplicationDocs = ({ link }) => {
+const ApplicationDocs = ({ link, name }) => {
   const [url, setUrl] = useState("");
 
   useEffect(() => {
@@ -15,7 +15,10 @@ const ApplicationDocs = ({ link }) => {
   return (
     <div>
       {url ? (
-        <img className="dic_img_tag" src={url} alt="" />
+        <div className="doc_drawer_img">
+          <p>{name}</p>
+          <img className="dic_img_tag" src={url} alt="" />
+        </div>
       ) : (
         <span className="loading">Loading....</span>
       )}

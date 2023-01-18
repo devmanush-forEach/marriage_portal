@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Navbar.css";
 import { useDispatch, useSelector } from "react-redux";
 import { set_User } from "../../redux/actions/user.actions";
@@ -11,8 +11,9 @@ import { toast } from "react-toastify";
 import links from "./links";
 
 const Navbar = () => {
-  const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { user } = useSelector((state) => state.user);
   const [showSignin, setShowSignin] = useState(false);
   const [formType, setFormType] = useState(false);
 
@@ -20,6 +21,7 @@ const Navbar = () => {
     localStorage.clear();
     toast("Successfully Signed Out");
     dispatch(set_User(null));
+    navigate("/");
   };
 
   const handleShowSignin = () => {

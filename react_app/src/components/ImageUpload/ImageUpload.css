@@ -5,8 +5,8 @@
   flex-direction: column;
   gap: 20px;
   align-items: center;
-  padding: 10px;
   cursor: pointer;
+  padding: 5px 10px;
 }
 
 .image_upload_box > header {
@@ -18,36 +18,33 @@
 .image_upload_box > form {
   font-size: 20px;
   display: flex;
-  flex-direction: column;
   gap: 10px;
   align-items: center;
+  justify-content: space-between;
 }
 
-.image_upload_box > form > span {
-  font-size: 20px;
-  font-weight: 500;
+.image_upload_title {
+  display: block;
+  font-size: 12px;
+  font-weight: 400;
   color: rgb(29, 144, 255);
+  text-align: center;
 }
 
 .upload_icon {
-  width: 50px;
-  height: 50px;
+  font-size: 25px;
   color: rgb(29, 144, 255);
-}
-
-.image_upload_box > form > span {
-  font-size: 20px;
-  text-align: center;
 }
 
 .selected_filename {
   border: 1px solid black;
   height: 20px;
-  width: 200px;
+  width: 100%;
   text-align: center;
   font-size: 12px;
   border-radius: 10px;
   background-color: aliceblue;
+  color: black;
   padding: 0px 10px;
   position: relative;
 }

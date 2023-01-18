@@ -34,13 +34,16 @@ const SigninForm = () => {
         name="email"
         onchange={handleChange}
         label="Phone / Email"
-        inputValue={data.email}
+        defaultVal={data.email}
+        type="email"
+        pattern="^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$"
+        errorMessage="Please enter a valid email."
       />
       <FormInput
         name="password"
         onchange={handleChange}
         label="Password"
-        inputValue={data.password}
+        defaultVal={data.password}
       />
       <button className="submit_button" type="submit">
         Sign In

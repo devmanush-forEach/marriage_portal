@@ -29,7 +29,7 @@ const userController = {
         name,
         email,
         phone,
-        profile: req.file.path ? req.file.path : profile,
+        profile,
       };
       const updated = await userModel.findByIdAndUpdate(userid, toUpdate, {
         new: true,

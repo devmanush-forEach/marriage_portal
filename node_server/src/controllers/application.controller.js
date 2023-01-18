@@ -4,7 +4,7 @@ const applicationController = {
   getAll: async (req, res) => {
     try {
       const applications = await applicationModel
-        .find({ isActive: true, isVerified: false })
+        .find({ isVerified: false })
         .lean()
         .exec();
       return res.status(201).send(applications);
@@ -44,7 +44,7 @@ const applicationController = {
       const id = req.body._id;
       const data = await applicationModel.findByIdAndUpdate(
         id,
-        { isActive: false },
+        { isActive: false, remark: req.body.remark },
         { new: true }
       );
       if (!data.isActive) {

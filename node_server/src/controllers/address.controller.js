@@ -40,7 +40,7 @@ const addressController = {
       const toUpdate = req.body;
       const updated = await addressModel.findByIdAndUpdate(
         toUpdate._id,
-        toUpdate,
+        { $set: { ...toUpdate } },
         { new: true }
       );
 

@@ -9,26 +9,18 @@ import { axiosPost } from "../../helpers/axiosRequests";
 import GenderInput from "../../components/genderInput/GenderInput";
 import FormInput from "../../components/formInput/FormInput";
 import { addressInputList, generalInputList } from "./inputList";
+import { toast } from "react-toastify";
 
 const Profile = () => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
 
   const [generalData, setGeneralData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    gender: "",
-    profile: null,
+    ...user,
     dob: new Date().toJSON().slice(0, 10),
   });
 
-  const [address, setAddress] = useState({
-    address: "",
-    city: "",
-    state: "",
-    zipCode: "",
-  });
+  const [address, setAddress] = useState({});
 
   const [edit, setEdit] = useState(true);
 
@@ -84,47 +76,60 @@ const Profile = () => {
   const updateUser = async (e) => {
     e.preventDefault();
     try {
-      const toUpdate = { ...userProfile };
-      if (newProfile !== null) {
-        const imgUrl = await uploadImage(newProfile);
-        toUpdate.profile = imgUrl;
+      const toUpdate = { ...generalData };
+      // if (newProfile !== null) {
+      //   const imgUrl = await uploadImage(newProfile);
+      //   toUpdate.profile = imgUrl;
+      // }
+
+      const { status, data: updated } = await axiosPost(
+        "/user/update",
+        toUpdate
+      );
+      if (status === 201) {
+        toast("User successfully updated.");
+        dispatch(set_User(updated));
       }
 
-      const { data: updated } = await axiosPost("/user/update", toUpdate);
-      dispatch(set_User(updated));
+      console.log(status);
 
-      // dispatch(show_Notification({ message: "User updated successfully." }));
       setEdit(false);
       setShowdd(false);
-    } catch (error) {
-      // dispatch(show_Notification({ message: "ERR_CONNECTION_REFUSED" }));
-    }
+    } catch (error) {}
   };
   const handleUpdateAddress = async (e) => {
     e.preventDefault();
     try {
-      const toUpdate = { ...address };
+      const toUpdate = { ...user.address, ...address };
       if (!user?.address) {
         const { status, data: created } = await axiosPost(
           "/address/create",
           toUpdate
         );
-        console.log(created);
+        if (status === 201) {
+          toast("Address successfully added.");
+        } else {
+          toast.error(created.error);
+        }
       } else {
         const { status, data: updated } = await axiosPost(
           "/address/update",
           toUpdate
         );
-        console.log(updated);
+        if (status === 200) {
+          toast("Address successfully updated.");
+        } else {
+          toast.error(updated.error);
+        }
       }
 
-      window.location.reload();
+      // window.location.reload();
 
       // dispatch(set_User(updated));
-      // dispatch(show_Notification({ message: "User updated successfully." }));
       setEdit(false);
       setShowdd(false);
     } catch (error) {
+      toast.error(error.message);
       // dispatch(show_Notification({ message: "ERR_CONNECTION_REFUSED" }));
     }
   };
@@ -140,7 +145,7 @@ const Profile = () => {
             </span>
           </h2>
           <form onSubmit={updateUser} action="" className="general_info_form">
-            {generalInputList.map((e, i, a) => {
+            {generalInputList.map((e, i) => {
               if (i === 1)
                 return (
                   <div className="form_div">
@@ -158,7 +163,7 @@ const Profile = () => {
                       name={e.name}
                       onchange={handleChange}
                       label={e.label}
-                      inputValue={generalData[e.value]}
+                      // inputValue={generalData[e.value]}
                       errorMessage={e.errorMessage}
                       pattern={e.pattern}
                       type={e.type}

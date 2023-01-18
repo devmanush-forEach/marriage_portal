@@ -6,13 +6,13 @@ const FormInput = (props) => {
     name,
     label,
     onchange,
-    inputValue,
+    // inputValue,
     type,
     errorMessage,
     pattern,
     maxLength,
-    min,
-    max,
+    // min,
+    // max,
     defaultVal,
     disabled,
   } = props;
@@ -57,7 +57,7 @@ const FormInput = (props) => {
         pattern={pattern}
         onBlur={handleFocus}
         focused={focused.toString()}
-        max={type === "date" ? getMaxDate() : max}
+        // max={type === "date" ? getMaxDate() : max}
         disabled={disabled}
       />
       <label

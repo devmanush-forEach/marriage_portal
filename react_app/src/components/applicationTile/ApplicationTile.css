@@ -1,23 +1,45 @@
 .application_tile {
-  height: 100px;
+  height: fit-content;
+  min-height: 140px;
   border: 1px solid white;
   width: 100%;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 30px;
   color: white;
   padding: 10px;
   position: relative;
+  padding: 20px 180px 20px 250px;
+}
+.rejected_application {
+  border-color: red;
 }
 
 .application_img {
-  height: 90%;
+  max-height: 100px;
+  position: absolute;
+  left: 20px;
+  width: 200px;
+  display: grid;
+  place-items: center;
+}
+.application_img > img {
+  max-height: 100px;
 }
 
-.applicant_name {
+.applicant_property {
   border-left: 1px solid white;
   border-right: 1px solid white;
   padding: 0px 10px;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.applicant_property > span {
+  color: teal;
+  padding: 0px 4px;
 }
 
 .btn_box {
@@ -44,9 +66,14 @@
   color: red;
   background-color: #fbafaf;
 }
-
+.rejected_text {
+  color: red;
+  font-size: 20px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
 .right_drawer {
-  position: absolute;
+  position: fixed;
   right: 0%;
   top: 0%;
   height: 100vh;

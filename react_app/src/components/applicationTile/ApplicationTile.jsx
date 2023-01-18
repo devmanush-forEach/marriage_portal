@@ -49,12 +49,12 @@ const ApplicationTile = ({ application }) => {
   };
   const handleReject = async () => {
     try {
-      let verify = window.confirm("Are you sure ??");
-      if (verify) {
-        const { status, data } = await axiosPost(
-          "/application/reject",
-          application
-        );
+      let remark = window.prompt("PLease add a remark here!!");
+      if (remark) {
+        const { status, data } = await axiosPost("/application/reject", {
+          ...application,
+          remark,
+        });
         if (status === 202) {
           toast("Application is successfully deactivated.");
         } else {
@@ -66,30 +66,70 @@ const ApplicationTile = ({ application }) => {
       toast.error(error.message);
     }
   };
+
+  const handleShowDocs = () => {
+    if (application.docs.length > 0 && application.docs[0].name) {
+      setShowDocs(!showdocs);
+    } else {
+      toast.error("No Docs are present!!");
+    }
+  };
   return (
     <>
-      <div className="application_tile">
-        <img src={profile} alt="" className="application_img" />
-        <p className="applicant_name">Name : {application.name}</p>
-        <p className="applicant_name">Email : {application.email}</p>
-        <p className="applicant_name">Phone : {application.phone}</p>
-        <p className="applicant_name">Gender : {application.gender}</p>
-        <p className="applicant_name">DOB : {application.dob.slice(0, 10)}</p>
-        <button
-          onClick={() => {
-            setShowDocs(!showdocs);
-          }}
-          className="show_docs_btn"
-        >
+      <div
+        className={
+          application.isActive
+            ? "application_tile"
+            : "application_tile rejected_application"
+        }
+      >
+        <div className="application_img">
+          <img src={profile} alt="" />
+        </div>
+        <p className="applicant_property">
+          <span>Name :</span>
+          {application.name}
+        </p>
+        <p className="applicant_property">
+          <span>Email :</span>
+          {application.email}
+        </p>
+        <p className="applicant_property">
+          <span>Phone :</span>
+          {application.phone}
+        </p>
+        <p className="applicant_property">
+          <span>Gender :</span>
+          {application.gender}
+        </p>
+        <p className="applicant_property">
+          <span>DOB :</span>
+          {application.dob.slice(0, 10)}
+        </p>
+        {!application.isActive && (
+          <p className="applicant_property">
+            <span>Remark :</span>
+            {application?.remark}
+          </p>
+        )}
+        <button onClick={handleShowDocs} className="show_docs_btn">
           Show Docs
         </button>
         <div className="btn_box">
-          <button onClick={handleVerify} className="verify_btn">
-            Verify
-          </button>
-          <button onClick={handleReject} className="reject_btn">
-            Reject
-          </button>
+          {application.isActive ? (
+            <>
+              <button onClick={handleVerify} className="verify_btn">
+                Verify
+              </button>
+              <button onClick={handleReject} className="reject_btn">
+                Reject
+              </button>
+            </>
+          ) : (
+            <>
+              <div className="rejected_text">Rejected</div>
+            </>
+          )}
         </div>
       </div>
       {showdocs && (

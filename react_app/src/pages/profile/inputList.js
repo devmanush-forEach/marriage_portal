@@ -31,8 +31,8 @@ export const generalInputList = [
     "Phone",
     "phone",
     "Phone number's length should not be less than 10.",
-    "^s*(?:+?(d{1,3}))?[-. (]*(d{3})[-. )]*(d{3})[-. ]*(d{4})(?: *x(d+))?s*$",
-    ""
+    "^[0-9]{10,14}",
+    "number"
   ),
   new input(
     "dob",

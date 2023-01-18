@@ -14,7 +14,11 @@ export const set_Applications = (payload) => {
 export const get_Applications = () => {
   return async (dispatch) => {
     try {
-      const { data: applications } = await axiosGet("/application/all");
+      let { data: applications } = await axiosGet("/application/all");
+
+      applications = applications.sort((a, b) => {
+        return b.isActive - a.isActive;
+      });
 
       dispatch(set_Applications(applications));
     } catch (error) {}

@@ -4,7 +4,12 @@ const authorize = require("../middlewares/authorize");
 
 const router = require("express").Router();
 
-router.get("/all", applicationController.getAll);
+router.get(
+  "/all",
+  Authenticate,
+  authorize(["r1"]),
+  applicationController.getAll
+);
 router.post("/create", applicationController.create);
 router.post(
   "/verify",

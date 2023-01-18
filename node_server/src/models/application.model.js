@@ -9,7 +9,12 @@ const applicationSchema = new mongoose.Schema({
   profile: { type: String, required: false },
   remark: { type: String, required: false },
   docs: {
-    type: [String],
+    type: [
+      {
+        url: String,
+        name: String,
+      },
+    ],
     required: false,
   },
   isVerified: { type: Boolean, required: true, default: false },

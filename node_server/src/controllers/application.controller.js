@@ -4,7 +4,7 @@ const applicationController = {
   getAll: async (req, res) => {
     try {
       const applications = await applicationModel
-        .find({ isActive: true })
+        .find({ isActive: true, isVerified: false })
         .lean()
         .exec();
       return res.status(201).send(applications);
@@ -15,7 +15,9 @@ const applicationController = {
   create: async (req, res) => {
     try {
       const toCreate = req.body;
+      console.log(toCreate);
       const created = await applicationModel.create(toCreate);
+      console.log(created);
       return res.status(201).send(created);
     } catch (error) {
       return res.status(400).send({ error: error.message });
@@ -26,10 +28,11 @@ const applicationController = {
       const id = req.body._id;
       const data = await applicationModel.findByIdAndUpdate(
         id,
-        { isVerify: true },
+        { isVerified: true },
         { new: true }
       );
-      if (data.isVerify) {
+
+      if (data.isVerified) {
         return res.status(202).send("Successfully Verified");
       }
     } catch (error) {
